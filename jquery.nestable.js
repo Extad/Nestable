@@ -421,7 +421,7 @@
             }
 
             //Prevent changing parent without changing level
-            if (this.pointEl.parents(opt.listNodeName).first() != this.dragItemList) {
+            if (this.pointEl.parents(opt.listNodeName)[0] != this.dragItemList[0]) {
                 return;
             }
 
