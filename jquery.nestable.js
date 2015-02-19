@@ -267,7 +267,7 @@
             this.dragEl.css('width', dragItem.width());
 
             //Keep the parent list of the drap item
-            this.dragItemList = $(dragItem.parents(this.options.listNodeName)[0]);
+            this.dragItemList = dragItem.parents(this.options.listNodeName).first();
             
             dragItem.after(this.placeEl);
             dragItem[0].parentNode.removeChild(dragItem[0]);
@@ -410,7 +410,7 @@
             
             //Modified to work with more complexe item structure
             if (!this.pointEl.hasClass(opt.itemClass) && this.pointEl.parents(opt.itemNodeName).length > 0) {
-                this.pointEl = $(this.pointEl.parents(opt.itemNodeName)[0]);
+                this.pointEl = this.pointEl.parents(opt.itemNodeName).first());
             }
             
             if (this.pointEl.hasClass(opt.emptyClass)) {
@@ -421,7 +421,7 @@
             }
 
             //Prevent changing parent without changing level
-            if (this.pointEl.parents(opt.listNodeName)[0] != this.dragItemList[0]) {
+            if (this.pointEl.parents(opt.listNodeName).first() != this.dragItemList) {
                 return;
             }
 
