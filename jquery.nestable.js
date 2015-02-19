@@ -42,7 +42,8 @@
             collapseBtnHTML : '<button data-action="collapse" type="button">Collapse</button>',
             group           : 0,
             maxDepth        : 5,
-            threshold       : 20
+            threshold       : 20,
+            allowChangeLevel: false
         };
 
     function Plugin(element, options)
@@ -265,6 +266,9 @@
             this.dragEl = $(document.createElement(this.options.listNodeName)).addClass(this.options.listClass + ' ' + this.options.dragClass);
             this.dragEl.css('width', dragItem.width());
 
+            //Keep the parent list of the drap item
+            this.dragItemList = $(dragItem.parents(this.options.listNodeName)[0]);
+            
             dragItem.after(this.placeEl);
             dragItem[0].parentNode.removeChild(dragItem[0]);
             dragItem.appendTo(this.dragEl);
@@ -354,7 +358,8 @@
             /**
              * move horizontal
              */
-            if (mouse.dirAx && mouse.distAxX >= opt.threshold) {
+            //Adding option to disable level change
+            if (opt.allowChangeLevel && mouse.dirAx && mouse.distAxX >= opt.threshold) {
                 // reset move distance on x-axis for new phase
                 mouse.distAxX = 0;
                 prev = this.placeEl.prev(opt.itemNodeName);
@@ -402,13 +407,21 @@
             if (!hasPointerEvents) {
                 this.dragEl[0].style.visibility = 'visible';
             }
-            if (this.pointEl.hasClass(opt.handleClass)) {
-                this.pointEl = this.pointEl.parent(opt.itemNodeName);
+            
+            //Modified to work with more complexe item structure
+            if (!this.pointEl.hasClass(opt.itemClass) && this.pointEl.parents(opt.itemNodeName).length > 0) {
+                this.pointEl = $(this.pointEl.parents(opt.itemNodeName)[0]);
             }
+            
             if (this.pointEl.hasClass(opt.emptyClass)) {
                 isEmpty = true;
             }
             else if (!this.pointEl.length || !this.pointEl.hasClass(opt.itemClass)) {
+                return;
+            }
+
+            //Prevent changing parent without changing level
+            if (this.pointEl.parents(opt.listNodeName)[0] != this.dragItemList[0]) {
                 return;
             }
 
