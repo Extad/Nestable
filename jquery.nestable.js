@@ -150,8 +150,8 @@
                     {
                         var li   = $(this),
                             item = $.extend({}, li.data()),
-                            sub  = li.children(list.options.listNodeName);
-                        if (sub.length) {
+                            sub  = li.find(list.options.listNodeName).first();
+                        if (sub.length && sub.children(list.options.itemNodeName).length) {
                             item.children = step(sub, depth + 1);
                         }
                         array.push(item);
