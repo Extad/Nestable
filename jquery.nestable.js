@@ -410,7 +410,7 @@
             
             //Modified to work with more complexe item structure
             if (!this.pointEl.hasClass(opt.itemClass) && this.pointEl.parents(opt.itemNodeName).length > 0) {
-                this.pointEl = this.pointEl.parents(opt.itemNodeName).first());
+                this.pointEl = this.pointEl.parents(opt.itemNodeName).first();
             }
             
             if (this.pointEl.hasClass(opt.emptyClass)) {
